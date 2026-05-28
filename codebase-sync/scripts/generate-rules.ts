@@ -265,17 +265,17 @@ ${componentTable()}
 <div className="datatable-container"><table className="datatable">...</table></div>
 \`\`\`
 ${backendSection()}
-## Codebase Wiki
-wiki อยู่ที่ \`wiki/\` — ดู \`wiki/index.md\` ก่อนเสมอ
-- Status ✅ → อ่าน note แทนไฟล์ต้นทาง
-- Status ⬜ → สร้าง note ก่อนตอบ
-- Status ⚠️ → แจ้งผู้ใช้ก่อน
-- โหลดสูงสุด 2-3 ไฟล์ต่อคำถาม
+## Codebase Wiki — เริ่มที่ \`wiki/index.md\` เสมอ
+\`wiki/index.md\` = router (ความรู้ + กฎ)
+- กฎ design system เต็ม → \`wiki/rules.md\`
+- ตั้งชื่อ component → \`wiki/glossary.md\`
+- เข้าใจไฟล์: ✅ อ่าน note | ⬜ สร้าง note ก่อน | ⚠️ แจ้งก่อน
+- โหลดสูงสุด 2-3 ไฟล์ต่อ task — ห้าม scan ทั้ง wiki/project
 
 ---
 
 ## อัปเดตเมื่อมีการเปลี่ยนแปลง
-ถ้าแก้ไขสิ่งเหล่านี้ → อัปเดต \`CLAUDE.md\` และ \`DESIGN_SYSTEM.md\` ทันที:
+ถ้าแก้สิ่งเหล่านี้ → รัน \`/codebase-sync\` หรืออัปเดต \`CLAUDE.md\` + \`wiki/rules.md\`:
 - เพิ่ม component ใหม่ใน \`${importPath}\`
 - เพิ่ม CSS variable/token ใหม่
 - เปลี่ยน card/button/input/table pattern
@@ -297,37 +297,34 @@ Before modifying any file, you MUST:
 
 ---
 
-**Read \`DESIGN_SYSTEM.md\` before writing any UI, component, or CSS.**
+## Codebase Wiki — start at \`wiki/index.md\` (router)
+- Design system rules → \`wiki/rules.md\` (read before writing any UI/CSS)
+- Component naming → \`wiki/glossary.md\` (canonical names — never invent variants)
+- Files: ✅ read note | ⬜ create note first | ⚠️ warn if stale
+- Max 2-3 files per task — never scan the whole wiki/project
 
-**Update \`DESIGN_SYSTEM.md\` immediately when you:**
+**Update \`wiki/rules.md\` (run \`/codebase-sync\`) when you:**
 - Add a new component to \`${importPath}\`
 - Add a new CSS variable or design token
 - Change any pattern (card / button / input / table)
-- Change any font or typography token
 ${scan.hasBackend ? '- Change backend response format' : ''}
 
-> If not updated — next session AI will read stale rules and revert to old patterns.
-
----
-
-## Codebase Wiki
-Wiki at \`wiki/\`. Always check \`wiki/index.md\` first.
-- ✅ = read note instead of source
-- ⬜ = create note on-demand before answering
-- ⚠️ = warn user note may be stale
-Max 2-3 files per query.
+> If not updated — next session AI reads stale rules and reverts to old patterns.
 `;
 }
 
 // ────────────────────────────────────────────
-// Write output
+// Write output — wiki/ structure + root rule files
 // ────────────────────────────────────────────
 
+const wikiDir = join(outDir, 'wiki');
+if (!existsSync(wikiDir)) mkdirSync(wikiDir, { recursive: true });
+
 const files = [
-  { name: 'DESIGN_SYSTEM.md', content: generateDesignSystem() },
-  { name: 'CLAUDE.md', content: generateClaudeMd() },
+  { name: join('wiki', 'rules.md'), content: generateDesignSystem() }, // design system → wiki/rules.md
+  { name: 'CLAUDE.md', content: generateClaudeMd() },                   // root (auto-load)
   { name: 'AGENTS.md', content: generateAgentsMd() },
-  { name: 'GEMINI.md', content: generateAgentsMd() }, // same as AGENTS.md
+  { name: 'GEMINI.md', content: generateAgentsMd() },
 ];
 
 for (const f of files) {
@@ -340,3 +337,4 @@ console.log(`\n📁 Output: ${outDir}`);
 console.log(`📦 Stack: ${s.framework} + ${s.css}`);
 console.log(`🧩 Components: ${scan.components?.total ?? 0} files`);
 console.log(`🎨 CSS Vars: ${Object.keys(tokens.rawVars ?? {}).length} variables`);
+console.log('ℹ️  wiki/index.md, glossary.md, overview.md — generate ด้วย AI (ดู SKILL.md BUILD mode)');

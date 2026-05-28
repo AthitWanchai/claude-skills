@@ -10,22 +10,16 @@ Before modifying any file, you MUST:
 
 ---
 
-**Read `DESIGN_SYSTEM.md` before writing any UI, component, or CSS.**
+## Codebase Wiki — start at `wiki/index.md` (router)
+- Design system rules → `wiki/rules.md` (read before writing any UI/CSS)
+- Component naming → `wiki/glossary.md` (canonical names — never invent variants)
+- Understanding files: ✅ read note | ⬜ create note first | ⚠️ warn if stale
+- Max 2-3 files per task — never scan the whole wiki/project
 
-**Update `DESIGN_SYSTEM.md` immediately when you:**
+**Update `wiki/rules.md` (run `/codebase-sync`) immediately when you:**
 - Add a new component to `{{IMPORT_PATH}}`
 - Add a new CSS variable or design token
 - Change any pattern (card / button / input / table)
-- Change any font or typography token
 {{BACKEND_UPDATE_RULE}}
 
-> If not updated — next session AI will read stale rules and revert to old patterns.
-
----
-
-## Codebase Wiki
-Wiki at `wiki/`. Always check `wiki/index.md` first.
-- ✅ = read note instead of source
-- ⬜ = create note on-demand before answering
-- ⚠️ = warn user note may be stale
-Max 2-3 files per query.
+> If not updated — next session AI reads stale rules and reverts to old patterns.

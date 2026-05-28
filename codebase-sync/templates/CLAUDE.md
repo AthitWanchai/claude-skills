@@ -35,17 +35,17 @@
 
 {{BACKEND_SECTION}}
 
-## Codebase Wiki
-wiki อยู่ที่ `wiki/` — ดู `wiki/index.md` ก่อนเสมอ
-- Status ✅ → อ่าน note แทนไฟล์ต้นทาง
-- Status ⬜ → สร้าง note ก่อนตอบ
-- Status ⚠️ → แจ้งผู้ใช้ก่อน
-- โหลดสูงสุด 2-3 ไฟล์ต่อคำถาม
+## Codebase Wiki — เริ่มที่ `wiki/index.md` เสมอ
+`wiki/index.md` = router หลัก (ความรู้ + กฎ)
+- กฎ design system เต็ม → `wiki/rules.md`
+- ตั้งชื่อ component → `wiki/glossary.md` (canonical names)
+- เข้าใจไฟล์: Status ✅ อ่าน note | ⬜ สร้าง note ก่อน | ⚠️ แจ้งก่อน
+- โหลดสูงสุด 2-3 ไฟล์ต่อ task — ห้าม scan ทั้ง wiki/project
 
 ---
 
 ## อัปเดตเมื่อมีการเปลี่ยนแปลง
-ถ้าแก้ไขสิ่งเหล่านี้ → อัปเดต `CLAUDE.md` และ `DESIGN_SYSTEM.md` ทันที:
+ถ้าแก้สิ่งเหล่านี้ → รัน `/codebase-sync` หรืออัปเดต `CLAUDE.md` + `wiki/rules.md` ทันที:
 - เพิ่ม component ใหม่ใน `{{IMPORT_PATH}}`
 - เพิ่ม CSS variable/token ใหม่
 - เปลี่ยน card/button/input/table pattern
