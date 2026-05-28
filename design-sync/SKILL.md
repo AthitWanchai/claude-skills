@@ -85,6 +85,23 @@ bun ~/.claude/skills/design-sync/scripts/generate-rules.ts \
 
 ---
 
+## ขั้นตอน 5 — Auto-sync Hook (ทำครั้งเดียว)
+
+หลัง generate ไฟล์กฎเสร็จ ให้เสนอติดตั้ง pre-commit hook เพื่อกัน DESIGN_SYSTEM.md stale:
+
+1. copy `scripts/check-design-sync.js` + `scripts/setup-hooks.js` เข้าโปรเจค
+2. เพิ่มใน `package.json`:
+   ```json
+   "scripts": { "prepare": "node scripts/setup-hooks.js" }
+   ```
+3. รัน `node scripts/setup-hooks.js` ติดตั้ง hook ทันที
+
+**ผล:** ทุกครั้งที่ `git commit` → hook เช็คว่า component หรือ CSS variable
+ใหม่กว่า DESIGN_SYSTEM.md ไหม → เตือนให้รัน `/design-sync`
+ไม่ใช้ token, ไม่บล็อก commit, ทีม clone แล้ว `bun install` ได้ hook อัตโนมัติ (ไม่ต้องใช้ husky)
+
+---
+
 ## Token Budget
 
 | ขั้นตอน | ไฟล์ที่อ่าน | Token |
@@ -95,6 +112,7 @@ bun ~/.claude/skills/design-sync/scripts/generate-rules.ts \
 | Style file | 1 | ~300 |
 | Backend sample | 0-1 | ~200 |
 | **รวม** | **6-7 ไฟล์** | **~1,400** |
+| Hook ทุกวัน (commit) | 0 | **0 (Node script)** |
 
 ---
 

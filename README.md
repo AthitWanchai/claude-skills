@@ -62,6 +62,36 @@ Copy-Item -Recurse claude-skills\design-sync $env:USERPROFILE\.claude\skills\
 
 ---
 
+## Auto-sync Hook (กัน DESIGN_SYSTEM.md stale)
+
+เพื่อให้ไฟล์กฎไม่ล้าสมัยเมื่อเพิ่ม component หรือเปลี่ยน CSS variable
+`/design-sync` ติดตั้ง pre-commit hook ให้อัตโนมัติ — **ไม่ต้องใช้ husky**
+
+```
+developer เพิ่ม component / แก้ CSS var
+        ↓
+git commit
+        ↓
+hook เช็ค: ไฟล์ใหม่กว่า DESIGN_SYSTEM.md ไหม?
+        ↓
+ถ้าใช่ → เตือนให้รัน /design-sync (ไม่บล็อก commit)
+```
+
+**คุณสมบัติ:**
+- ✅ ไม่ใช้ token / ทำงาน offline (เป็น Node script ล้วน เครดิตหมดก็ทำงาน)
+- ✅ ทีม clone repo + `bun install` → hook ติดอัตโนมัติ (ผ่าน `prepare` script)
+- ✅ เช็คทั้ง component และ CSS variable (`globals.css`, `variables.css` ฯลฯ)
+- ✅ ไม่บล็อก commit — แค่เตือน
+
+**ติดตั้งเอง (ถ้าต้องการ):**
+```json
+// package.json
+"scripts": { "prepare": "node scripts/setup-hooks.js" }
+```
+แล้ว copy `scripts/check-design-sync.js` + `scripts/setup-hooks.js` เข้าโปรเจค
+
+---
+
 ## ทำไมต้องใช้ / Why Use This
 
 | ปัญหา | แก้ด้วย |
