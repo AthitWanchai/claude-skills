@@ -18,7 +18,7 @@ A collection of Claude Code Skills for teams — reduces token usage, enforces d
 
 ### 1. Clone repo นี้
 ```bash
-git clone https://github.com/athit1/claude-skills.git
+git clone https://github.com/AthitWanchai/claude-skills.git
 ```
 
 ### 2. Copy สกิลที่ต้องการไปไว้ที่ `~/.claude/skills/`
@@ -48,11 +48,9 @@ Copy-Item -Recurse claude-skills\design-sync $env:USERPROFILE\.claude\skills\
 ```
 
 สกิลจะ:
-1. อ่าน `package.json` → detect stack (framework, CSS, backend, ORM ฯลฯ)
-2. Glob หา component ทุกตัวในโปรเจค
-3. อ่าน CSS/style files → extract design tokens
-4. แสดงสรุปสิ่งที่พบและรอยืนยัน
-5. Generate/update ไฟล์เหล่านี้:
+1. รัน `scripts/scan-project.ts` → detect stack + glob components + extract tokens
+2. แสดงสรุปสิ่งที่พบและรอยืนยัน
+3. Generate/update ไฟล์เหล่านี้จาก `templates/`:
    - `DESIGN_SYSTEM.md` — single source of truth สำหรับทีม
    - `CLAUDE.md` — กฎสำหรับ Claude Code
    - `AGENTS.md` — กฎสำหรับ OpenAI Codex
@@ -94,5 +92,7 @@ GEMINI.md          ✅ commit — สำหรับ Gemini
 Pull requests ยินดีต้อนรับครับ — ถ้าอยากเพิ่มสกิลใหม่ สร้าง folder ใหม่ใน format:
 ```
 your-skill-name/
-  SKILL.md   ← frontmatter: name + description + instructions
+  SKILL.md       ← frontmatter: name + description + workflow
+  scripts/       ← TypeScript/JS scripts (optional)
+  templates/     ← output templates (optional)
 ```
